@@ -1,0 +1,40 @@
+<!-- src/main/resources/templates/index.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>多店铺商品管理</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+    </style>
+</head>
+<body>
+    <h1>📦 多平台商品库存看板</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>内部SKU</th>
+                <th>商品名</th>
+                <th>抖音库存</th>
+                <th>拼多多库存</th>
+                <th>总销量</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="p : ${products}">
+                <td th:text="${p.internalSku}"></td>
+                <td th:text="${p.productName}"></td>
+                <td th:text="${p.douyinStock}"></td>
+                <td th:text="${p.pddStock}"></td>
+                <td th:text="${p.totalSales}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/add-sample">+ 添加示例商品</a>
+</body>
+</html>

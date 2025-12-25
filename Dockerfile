@@ -1,0 +1,38 @@
+# 使用官方 Maven 镜像作为构建阶段
+FROM maven:3.9 AS builder
+
+# 设置工作目录
+WORKDIR /app
+
+# 复制 pom.xml 并下载依赖（利用 Docker 缓存）
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+
+# 复制源码并打包
+COPY src ./src
+RUN mvn package -DskipTests
+
+# 运行阶段：使用 Microsoft Container Registry 上的 Ubuntu-based OpenJDK 镜像（避免 Docker Hub 拉取超时）
+FROM mcr.microsoft.com/openjdk/jdk:17-ubuntu
+
+# 安装 tzdata（避免时区警告）
+# 使用 Debian/Ubuntu-based slim 镜像时要用 apt 而不是 apk
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends tzdata \
+	&& rm -rf /var/lib/apt/lists/* \
+	&& dpkg-reconfigure --frontend noninteractive tzdata || true
+
+# 设置时区（可选）
+ENV TZ=Asia/Shanghai
+
+WORKDIR /app
+
+# 从 builder 阶段复制 JAR
+COPY --from=builder /app/target/*.jar app.jar
+
+# 暴露端口
+EXPOSE 8080
+
+# 启动应用
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
