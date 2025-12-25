@@ -12,7 +12,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.example</groupId>
+    <groupId>com.multishop</groupId>
     <artifactId>multi-shop-dashboard</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>multi-shop-dashboard</name>
