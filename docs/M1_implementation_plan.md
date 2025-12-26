@@ -1,3 +1,89 @@
+# M1 实施计划 - 多平台商品销售与库存管理 PoC
+
+## 概述
+
+根据PRD文档，M1（最小可交付版本）的目标是实现一个支持抖音或拼多多任一平台接入的系统，具备日汇总、简单Dashboard和手动库存下发功能。
+
+## 项目结构
+
+```
+docs/
+├── M1_implementation_plan.md
+src/
+├── main/
+│   ├── java/com/multishop/
+│   │   ├── controller/
+│   │   ├── dto/
+│   │   ├── exception/
+│   │   ├── mapper/
+│   │   ├── model/
+│   │   ├── repository/
+│   │   └── service/
+│   └── resources/
+│       └── templates/
+├── Dockerfile
+├── docker-compose.yml
+├── pom.xml
+└── README-POC.md
+```
+
+## Sprint 0（准备）— 已完成
+- 初始化仓库结构、创建分支 `feature/m1-poc`、新增 `docs/` — 完成
+- 准备开发环境（Postgres Docker 容器、Redis 可选） — 完成
+- 基础项目架构搭建（Spring Boot, JPA, Thymeleaf） — 完成
+- 基础实体、服务、控制器创建 — 完成
+
+## Sprint 1（核心模型与数据层）— 3 天
+- 设计并实现核心数据模型（products, daily_sales, inventory_snapshots） — 1d
+- 实现 Product 相关的 Repository、Service、DTO 和 Mapper — 1d
+- 实现数据库连接配置（H2/Postgres） — 0.5d
+- 实现基础的 REST API 端点 — 0.5d
+
+## Sprint 2（UI 和 Dashboard）— 3 天
+- 创建 Dashboard 页面，展示商品列表和库存信息 — 1d
+- 实现基础的前端页面（Thymeleaf 模板） — 1d
+- 添加示例数据和页面交互功能 — 1d
+
+## Sprint 3（库存同步功能）— 3 天
+- 实现库存同步的 API 端点 — 1d
+- 实现手动库存下发功能 — 1d
+- 添加错误处理和重试机制 — 1d
+
+## Sprint 4（集成与测试）— 2 天
+- 集成各模块并进行全面测试 — 1d
+- 修复缺陷并优化性能 — 1d
+
+## 技术实现细节
+
+### 数据模型
+- Product：商品基本信息（SKU、名称、各平台库存）
+- DailySales：每日销售汇总数据
+- InventorySnapshot：库存快照
+
+### API 接口
+- `GET /api/products` - 获取所有商品
+- `POST /api/products` - 添加新商品
+- `PUT /api/products/{id}/stock` - 更新库存
+- `GET /` - Dashboard 页面
+
+### 配置和部署
+- 使用 Spring Boot 3.3.0
+- 支持 H2（本地）和 PostgreSQL（Docker）数据库
+- Docker Compose 部署环境
+
+## 风险和注意事项
+- 平台 API 限流策略需考虑
+- 数据一致性保证
+- 错误处理和重试机制
+- 安全性（凭证加密存储）
+
+## 完成标准
+- 能够展示商品列表
+- 能够手动更新各平台库存
+- 数据持久化到数据库
+- Docker 环境正常运行
+- 基础 UI 能够访问和操作
+
 # M1 实施计划（PoC）
 
 版本：0.1
