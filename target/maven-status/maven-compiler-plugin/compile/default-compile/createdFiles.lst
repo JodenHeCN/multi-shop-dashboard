@@ -1,8 +1,10 @@
+com\multishop\mapper\ProductMapper.class
+com\multishop\MultiShopApplication.class
+com\multishop\service\ProductService.class
+com\multishop\controller\HomeController.class
 com\multishop\controller\ProductController.class
 com\multishop\model\Product.class
-com\multishop\MultiShopApplication.class
 com\multishop\exception\ResourceNotFoundException.class
-com\multishop\service\ProductService.class
 com\multishop\exception\GlobalExceptionHandler.class
 com\multishop\repository\ProductRepository.class
-com\multishop\controller\HomeController.class
+com\multishop\dto\ProductDto.class
