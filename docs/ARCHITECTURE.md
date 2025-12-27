@@ -307,25 +307,30 @@ classDiagram
         +findByPlatform(String platform) List~Store~
         +findByPlatformAndPlatformStoreId(String platform, String platformStoreId) Store
     }
+```
 
-    Product||--o{DailySales : "has"
-    Product||--o{InventorySnapshot : "has"
-    Store||--o{DailySales : "has"
-    Store||--o{InventorySnapshot : "has"
-    Store||--o{Orders : "has"
-    Orders||--o{SyncJobs : "syncs"
-    SyncJobs||--o{AuditLogs : "logs"
-    ProductDto<|--Product : "maps to"
-    Product<|--ProductDto : "mapped from"
-    ProductMapper||--||ProductDto : "converts"
-    ProductMapper||--||Product : "converts"
-    ProductController||--o{ProductService : "uses"
-    HomeController||--o{ProductService : "uses"
-    ProductService||--o{ProductRepository : "uses"
-    ProductService||--o{DailySalesRepository : "uses"
-    ProductService||--o{InventorySnapshotRepository : "uses"
-    ProductService||--o{StoreRepository : "uses"
-    ProductService||--o{ProductMapper : "uses"
+## 实体关系图
+
+```mermaid
+erDiagram
+    Product ||--o{ DailySales : "has"
+    Product ||--o{ InventorySnapshot : "has"
+    Store ||--o{ DailySales : "has"
+    Store ||--o{ InventorySnapshot : "has"
+    Store ||--o{ Orders : "has"
+    Orders ||--o{ SyncJobs : "syncs"
+    SyncJobs ||--o{ AuditLogs : "logs"
+    
+    Product ||--o{ ProductDto : "mapped to"
+    ProductDto ||--o{ ProductMapper : "converted"
+    ProductMapper ||--o{ Product : "converts back"
+    
+    ProductController ||--o{ ProductService : "uses"
+    HomeController ||--o{ ProductService : "uses"
+    ProductService ||--o{ ProductRepository : "uses"
+    ProductService ||--o{ DailySalesRepository : "uses"
+    ProductService ||--o{ InventorySnapshotRepository : "uses"
+    ProductService ||--o{ StoreRepository : "uses"
 ```
 
 ## 分层说明
