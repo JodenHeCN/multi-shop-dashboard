@@ -246,8 +246,37 @@ Sprint 3 — 缓冲 + 测试 + 部署（3-4 天）
 
 ---
 
-如需，我可以：
-- 直接把上述任务拆分为 issue/tickets（GitHub/GitLab）并在 `feature/m1-poc` 下创建初始分支与基础代码模版；
-- 或开始实现第 1 个任务（收集接入信息并初始化仓库结构）。
+### pgAdmin
+1. 更新了docker-compose.yml文件：
+添加了pgAdmin服务，使用dpage/pgadmin4:latest镜像
+配置了默认的登录凭据（邮箱：admin@admin.com，密码：admin）
+映射端口5050到pgAdmin的Web界面
+设置了数据卷以持久化pgAdmin配置
+添加了对db服务的依赖
+2. 更新了pom.xml文件：
+添加了spring-boot-starter-jdbc依赖，以便DebugController可以使用JdbcTemplate
+3. 创建了DebugController：
+允许通过浏览器查看数据库表结构和数据
+提供了查看不同表的端点
+现在，您可以按以下步骤使用pgAdmin：
 
-请选择下一步：创建 issue/任务并初始化分支 / 直接开始实现第 1 个开发任务（我会给出第一步具体命令）。
+重新构建并启动Docker Compose服务：
+bash
+docker-compose up --build
+访问pgAdmin：
+打开浏览器并导航到 http://localhost:5050
+使用邮箱 admin@admin.com 和密码 admin 登录
+在pgAdmin中连接到您的数据库：
+右键点击 "Servers"，选择 "Create" -> "Server"
+在 "General" 选项卡中，设置名称为 "multishop-db"
+在 "Connection" 选项卡中：
+Host name/address: db (Docker容器名称)
+Database: multishop
+Username: postgres
+Password: postgres
+使用DebugController查看数据：
+访问 http://localhost:8080/debug/tables 查看表列表
+访问 http://localhost:8080/debug/products 查看产品数据
+访问 http://localhost:8080/debug/dailysales 查看每日销售数据
+访问 http://localhost:8080/debug/inventorysnapshots 查看库存快照数据
+这样，您就可以通过pgAdmin图形界面或通过DebugController的Web页面来查看和管理数据库中的数据了。
