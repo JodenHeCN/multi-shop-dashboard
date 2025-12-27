@@ -15,8 +15,11 @@ import java.util.Map;
 @RequestMapping("/debug")
 public class DebugController {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
+
+    public DebugController(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @GetMapping("/tables")
     public String showTables(Model model) {

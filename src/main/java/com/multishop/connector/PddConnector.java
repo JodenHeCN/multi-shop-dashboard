@@ -19,18 +19,19 @@ public class PddConnector implements PlatformConnector {
     
     private static final Logger logger = LoggerFactory.getLogger(PddConnector.class);
     
-    @Autowired
-    private AuthConfig authConfig;
-    
-    @Autowired
-    private RateLimitConfig rateLimitConfig;
-    
-    @Autowired
-    private RestTemplate restTemplate;
+    private final AuthConfig authConfig;
+    private final RateLimitConfig rateLimitConfig;
+    private final RestTemplate restTemplate;
     
     // 限流计数器
     private final AtomicInteger requestCount = new AtomicInteger(0);
     private final long windowStart = System.currentTimeMillis();
+
+    public PddConnector(AuthConfig authConfig, RateLimitConfig rateLimitConfig, RestTemplate restTemplate) {
+        this.authConfig = authConfig;
+        this.rateLimitConfig = rateLimitConfig;
+        this.restTemplate = restTemplate;
+    }
     
     @Override
     public List<Orders> fetchOrders(java.time.LocalDateTime lastSyncTime) {
